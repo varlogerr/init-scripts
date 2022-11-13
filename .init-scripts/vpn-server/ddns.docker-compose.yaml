@@ -1,0 +1,10 @@
+---
+# configure .env and run with `docker compose up -d`
+version: "2.1"
+services:
+  ddns:
+    image: varlogerr/ddns:20220924.f3e57e3
+    container_name: ddns-ydns
+    env_file:
+      - .env
+    restart: unless-stopped
