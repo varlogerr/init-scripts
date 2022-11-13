@@ -1,0 +1,16 @@
+# {SHLIB_GEN}
+  # https://editorconfig.org/#supported-properties
+  #
+  # all files
+  [*]
+  insert_final_newline = true
+  indent_size = 2
+  indent_style = space
+  end_of_line = lf
+  charset = utf-8
+  trim_trailing_whitespace = true
+  
+  # markdown
+  [*.{md,mdx}]
+  trim_trailing_whitespace = false
+# {/SHLIB_GEN}
