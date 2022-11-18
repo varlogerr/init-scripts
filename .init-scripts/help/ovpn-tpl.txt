@@ -1,0 +1,11 @@
+#
+## https://serverfault.com/a/1069810
+## uncomment to use vpn only in lan. Example:
+## `route 192.168.0.0 255.255.255.0`
+#pull-filter ignore redirect-gateway
+#route [IP] [SUBNET_MASK]
+#
+## uncomment to use custom DNS server and replace
+## placeholder with DNS server ip
+#dhcp-option DNS 1.0.0.1
+#dhcp-option DNS 1.1.1.1

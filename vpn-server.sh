@@ -2,6 +2,7 @@
 
 THE_DIR="$(dirname -- "$(realpath -- "${BASH_SOURCE[0]}")")"
 TPL_DIR="${THE_DIR}/.init-scripts/vpn-server"
+HELP_DIR="${THE_DIR}/.init-scripts/help"
 
 USER_ID="${SUDO_UID:-$(id -u)}"
 USER_NAME="$(id -nu "${USER_ID}")"
@@ -25,18 +26,30 @@ DOCKER_DDNS_DIR="${DOCKER_DIR}/ddns"
 trap_help() {
   [[ "${1}" =~ ^(-\?|-h|--help)$ ]] || return 1
 
-  echo "
-    Configure VPN server. Must be run from root.
+  local main; main="$(
+    sed -e 's#{{initos_path}}#'"${INITOS_PATH}"'#g' \
+      -e 's#{{script}}#'"${0}"'#g' \
+      -e 's#{{docker_ddns_dir}}#'"${DOCKER_DDNS_DIR}"'#g' \
+      -e 's#{{ovpn_install_path}}#'"${OVPN_INSTALL_PATH}"'#g' \
+      -e 's#{{wg_install_path}}#'"${WG_INSTALL_PATH}"'#g' \
+      "${HELP_DIR}/main.txt"
+  )"
+  local ovpn_gentpl; ovpn_gentpl="$(cat "${HELP_DIR}/ovpn-tpl.txt")"
+  local ovpn; ovpn="$(
+    sed -e 's#{{script}}#'"${0}"'#g' "${HELP_DIR}/ovpn.txt"
+  )"
+  local wg; wg="$(cat "${HELP_DIR}/wg.txt")"
+  local help_txt="${main}"
 
-    After the script is done:
-    * configure and run ${INITOS_PATH} script
-    * configure .env file and run \`docker compose up -d\` in
-      ${DOCKER_DDNS_DIR} directory
-    * install openvpn or configure clients with
-      ${OVPN_INSTALL_PATH} script
-    * install wireguard or configure clients with
-      ${WG_INSTALL_PATH} script
-  " | sed -e '1d' -e '$d' | cut -c5-
+  case "${2}" in
+    ovpn) help_txt="${ovpn}" ;;
+    wg) help_txt="${wg}" ;;
+    ovpn-gentpl) help_txt="${ovpn_gentpl}" ;;
+    "") ;;
+    *) echo "Invalid help option" >&2; exit 1 ;;
+  esac
+
+  echo "${help_txt}"
 
   return 0
 }

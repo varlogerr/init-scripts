@@ -1,0 +1,12 @@
+Configure VPN server. Must be run from root.
+
+After the script is done:
+* configure and run {{initos_path}} script
+* configure .env file and run `docker compose up -d` in
+  {{docker_ddns_dir}} directory
+* install openvpn or configure clients with
+  {{ovpn_install_path}} script
+* use `{{script}} -h ovpn` for openvpn config help
+* install wireguard or configure clients with
+  {{wg_install_path}} script
+* use `{{script}} -h wg` for wireguard config help

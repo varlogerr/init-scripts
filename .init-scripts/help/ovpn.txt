@@ -1,0 +1,9 @@
+Configure /etc/openvpn/server.conf:
+* comment `push "redirect-gateway ..."` if presents
+* comment all `push "dhcp-option DNS"` entries
+* add `push "dhcp-option DNS"` for local DNS
+
+Configure /etc/openvpn/client-template.txt:
+* change host / port in `remote ...` section if needed
+* put to the end of file snapshot generated wtih
+  `{{script}} -h ovpn-gentpl`
